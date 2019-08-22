@@ -1,0 +1,54 @@
+<!-- <div id="loginform" style="position: absolute; right: 45%; top: 40%;">
+    <mat-card-content>
+        <form class="example-form">
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+            <td><mat-form-field class="example-full-width">
+              <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+            </mat-form-field></td>
+          </tr></table>
+        </form>
+        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="login()" color="primary">Login</button>
+    </mat-card-actions>
+</div> -->
+<div style="position: absolute; right: 45%; top: 40%;">
+  <div *ngIf="isLoginError">
+    <i>Error</i> Incorrect UserName or Password
+  </div>
+  <form #loginForm="ngForm" (ngSubmit)="OnSubmit(userlogin.UserName, userlogin.Password)" novalidate>
+      <!-- change the error after the input *** -->
+      <div class="form-group">
+          <label for="Username">Username</label>
+          <input type="text" class="form-control" name="Username" [(ngModel)]="userlogin.UserName" required> 
+      </div>
+      <div *ngIf="!loginForm.controls.Username?.valid && (loginForm.controls.Username?.dirty || loginForm.controls.Username?.touched)">
+        <div [hidden]="!loginForm.controls.Username.errors.required">
+          Username is required!
+        </div>
+      </div>
+      <div class="form-group" >
+          <label for="Password">Password</label>
+          <input type="password" class="form-control" name="Password" [(ngModel)]="userlogin.Password" required>
+      </div>
+      <div *ngIf="!loginForm.controls.Password?.valid && (loginForm.controls.Password?.dirty || loginForm.controls.Password?.touched)">
+          <div [hidden]="!loginForm.controls.Password.errors.required">
+            Password is required!
+          </div>
+        </div>
+      <div class="form-group" style="float: right;">
+          <button type="submit" [disabled]="!loginForm.valid" style=" border: 0px; border-radius: 4px; height: 35px; color: white; background-color: #3F51B5;">Login</button>
+      </div>
+    </form>
+</div>
+  
+

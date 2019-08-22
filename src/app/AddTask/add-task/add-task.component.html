@@ -1,0 +1,37 @@
+<form #addtaskForm="ngForm" (ngSubmit)="handleClick(datapost)" novalidate>
+    <div style="padding: 20px;">
+        <h3 style="color: grey;" class="ui-float-label">Add Task</h3>
+        <hr>
+        <span class="ui-float-label">
+            <input style="width: 210px;" id="float-input" name="quotetype" type="text" size="30" [(ngModel)]="datapost.QuoteTypeS" pInputText> 
+            <label for="float-input">Quote Type</label>
+        </span>
+        <br>
+        <span class="ui-float-label">
+            <input style="width: 210px;" id="float-input" name="contact" type="text" size="30" [(ngModel)]="datapost.ContactS" pInputText> 
+            <label for="float-input">Contact</label>
+        </span>
+        <br>
+        <span class="ui-float-label">
+            <input style="width: 210px;" id="float-input" name="task" type="text" size="30" [(ngModel)]="datapost.TaskS" pInputText> 
+            <label for="float-input">Task</label>
+        </span>
+        <br>
+        <span class="ui-float-label">       
+            <p-calendar id="float-input" name="duedate" [(ngModel)]="datapost.DueDateS" [showIcon]="true"></p-calendar>
+            <label for="float-input">DueDate</label>                
+        </span>
+        <br>
+        <span class="ui-float-label">
+            <input style="width: 210px;" id="float-input" name="tasktype" type="text" size="30" [(ngModel)]="datapost.TaskTypeS" pInputText> 
+            <label for="float-input">Task Type</label>
+        </span>
+        <br>
+        <p-button label="Submit" style=" border: 0px; border-radius: 4px; height: 35px; color: white; background-color: #3F51B5;"></p-button>
+    </div>
+</form>
+
+ 
+ 
+
+

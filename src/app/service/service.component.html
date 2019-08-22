@@ -1,0 +1,158 @@
+<!-- <p>{{str}}</p>
+  if no errors this part does not show -->
+<!-- <p>{{error}}</p>
+  <p>{{loading}}</p>
+  <div>
+   {{para}} 
+  </div> -->
+<!-- <div>
+      <tr>
+        <th>{{dataByID.QuoteType}}</th>
+        <th>{{dataByID.QuoteID}}</th>
+        <th>{{dataByID.Contact}}</th>
+        <th>{{dataByID.Task}}</th>
+        <th>{{dataByID.DueDate | date}}</th>
+        <th>{{dataByID.TaskType}}</th>
+      </tr>
+  </div>
+  <p-table [value]="data">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>QuoteType</th>
+            <th>QuoteID</th>
+            <th>Contact</th>
+            <th>Task</th>
+            <th>DueDate</th>
+            <th>TaskType</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-orders>
+        <tr>
+            <td>{{orders.QuoteType}}</td>
+            <td>{{orders.QuoteID}}</td>
+            <td>{{orders.Contact}}</td>
+            <td>{{orders.Task}}</td>
+            <td>{{orders.DueDate | date}}</td>
+            <td>{{orders.TaskType}}</td>
+        </tr>
+    </ng-template>
+</p-table> -->
+<style>
+    tr:hover{background-color: #f5f5f5;}
+</style>
+
+<p-dataView #dv [value]="data" [paginator]="true" [rows]="10" filterBy="quotetype">
+    <p-header style="width: 100%">
+            <div style="width: 100%; height: 25px; background-color: #C8D0CC;">
+                <div style="color: blue; padding: 0 0 0 20px; height: 25px;">
+                    <div style="height: 25px;">
+                        Tasks Details
+                        <!-- here Add Task click popup a form then fill out the form pass the data to web api -->
+                        <button routerLinkActive="active" routerLink="addTask" style="font-size:12px; float: right; background-color: #22BAA0; color: white;"><i class="fa fa-tasks"></i>Add Task</button>
+                    </div>                    
+                </div>                            
+            </div>
+        <div class="ui-helper-clearfix">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4" style="width: 100%;">
+                    <!-- dropdown list -->
+                    <div style="float: left;">
+                        Show
+                        <select>
+                            <option selected>5</option>
+                            <option>10</option>
+                            <option>20</option>
+                        </select>
+                        entries
+                    </div>
+                    <div style="float: right;">
+                        Order By:
+                        <select>
+                            <option selected>QuoteID</option>
+                            <option>QuoteType</option>
+                            <option>QuoteTask</option>
+                        </select>
+                        Descending:
+                        <input type="checkbox" name="descending" />
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        Search:
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+            <table style="width:100%;">
+                <tr>
+                    <th style="width: 50px; text-align: left;">Quote Type</th>
+                    <th style="width: 50px; text-align: left;">Quote#</th>
+                    <th style="width: 50px; text-align: left;">Contact</th>
+                    <th style="width: 50px; text-align: left;">Task</th>
+                    <th style="width: 50px; text-align: left;">Due Date</th>
+                    <th style="width: 50px; text-align: left;">Task Type</th>
+                    <th style="width: 50px; text-align: left;"></th>
+                </tr>
+            </table>
+        </div>        
+    </p-header>
+       
+    <ng-template pTemplate="listItem" let-orders>
+        <tr style="width: 100%;">
+            <td style=" width: 180px;  text-align: left;">{{orders.QuoteType}}</td>
+            <td style=" width: 170px;  text-align: left;">{{orders.QuoteID}}</td>
+            <td style=" width: 195px;  text-align: left;">{{orders.Contact}}</td>
+            <td style=" width: 175px;  text-align: left;">{{orders.Task}}</td>
+            <td style=" width: 175px;  text-align: left;">{{orders.DueDate | date}}</td>
+            <td style=" width: 140px;  text-align: left;">{{orders.TaskType}}</td>
+            <td><button id="eye" style="border: 0; background-color: white;"><i class="fas fa-eye"></i></button></td>
+            <td><button id="eye" (click)="frame.show()" (click)="passid(orders.QuoteID)"style="border: 0; background-color: white;"><i class="fas fa-edit"></i></button></td>
+            <td><button id="eye" (click)="deleteDataProcess(orders.QuoteID)" style="border: 0; background-color: white;"><i class="fas fa-trash"></i></button></td>
+            <br>
+            <!-- how to pass data from view to component don not use [(ngModel)]-->           
+        </tr>
+        <hr style="width: 100%">
+    </ng-template>
+</p-dataView>
+
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">UpDate</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">        
+          <input type="text" id="orangeForm-quotetype" class="form-control validate" [(ngModel)]="updatedata.QuoteTypeS">
+          <label data-error="wrong" data-success="right" for="orangeForm-email">Quote Type</label>
+        </div>
+
+        <div class="md-form mb-5">        
+            <input type="text" id="orangeForm-quoteid" class="form-control validate" value="{{idshow}}">
+            <label data-error="wrong" data-success="right" for="orangeForm-email">Quote ID</label>
+        </div>
+
+        <div class="md-form mb-5">          
+          <input type="text" id="orangeForm-contact" class="form-control validate" [(ngModel)]="updatedata.ContactS">
+          <label data-error="wrong" data-success="right" for="orangeForm-pass">Contact</label>
+        </div>
+
+        <div class="md-form mb-4">          
+          <input type="text" id="orangeForm-task" class="form-control validate" [(ngModel)]="updatedata.TaskS">
+          <label data-error="wrong" data-success="right" for="orangeForm-pass">Task</label>
+        </div>
+
+        <div class="md-form mb-4">            
+        <input type="text" id="orangeForm-tasktype" class="form-control validate" [(ngModel)]="updatedata.TaskTypeS">
+            <label data-error="wrong" data-success="right" for="orangeForm-pass">Task Type</label>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtnssssss (click)="updatePut(idshow)" color="deep-orange" class="waves-light" mdbWavesEffect>Update</button>
+      </div>
+    </div>
+  </div>
+</div>
